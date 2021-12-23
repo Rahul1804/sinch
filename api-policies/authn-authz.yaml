@@ -1,0 +1,27 @@
+# Require JWT for all request for workloads that have label app:calculatorapp
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: calculatorapp
+  namespace: calc
+spec:
+  selector:
+    matchLabels:
+      app: calculatorapp
+  jwtRules:
+  - issuer: "calculatorapp-foo"
+    jwksUri: https://example.com/.well-known/jwks.json
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: calculatorapp
+  namespace: calc
+spec:
+  selector:
+    matchLabels:
+      app: calculatorapp
+  rules:
+  - from:
+    - source:
+        requestPrincipals: ["*"]

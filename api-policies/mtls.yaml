@@ -1,0 +1,9 @@
+# apply mtls in calc ns
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: "default"
+  namespace: calc
+spec:
+  mtls:
+    mode: STRICT
